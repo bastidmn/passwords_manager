@@ -77,12 +77,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: EdgeInsets.all(10),
                   ),
                   Spacer(),
-                  Padding(
-                    child: Icon(
-                      Icons.settings_outlined,
-                      size: 40,
+                  GestureDetector(
+                    onTap: () => print("lol"),
+                    child: Padding(
+                      child: Icon(
+                        Icons.settings_outlined,
+                        size: 40,
+                      ),
+                      padding: EdgeInsets.all(10),
                     ),
-                    padding: EdgeInsets.all(10),
                   ),
                 ],
               ),
@@ -224,7 +227,7 @@ class PasswordCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.only(right: 20.0),
+              padding: EdgeInsets.only(right: 10.0),
               child: Container(
                 width: 10,
                 height: 10,
@@ -247,17 +250,63 @@ class PasswordCard extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: 8,
+                  height: 5,
                 ),
-                Text(
-                  "Username:    basti.dmn",
-                  style: GoogleFonts.lato(
-                    //color: Colors.red[800],
-                    color: Colors.grey[600],
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.w600,
-                  ),
-                )
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      child: Text(
+                        "Username:",
+                        style: GoogleFonts.lato(
+                          //color: Colors.red[800],
+                          color: Colors.grey[600],
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 150,
+                      child: Text(
+                        "bastidmn",
+                        style: GoogleFonts.lato(
+                          //color: Colors.red[800],
+                          color: Colors.grey[600],
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),Row(
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      child: Text(
+                        "Email:",
+                        style: GoogleFonts.lato(
+                          //color: Colors.red[800],
+                          color: Colors.grey[600],
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 200,
+                      child: Text(
+                        "bastidmn080@gmail.com",
+                        style: GoogleFonts.lato(
+                          //color: Colors.red[800],
+                          color: Colors.grey[600],
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ],
