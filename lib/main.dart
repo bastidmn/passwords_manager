@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:passwords_manager/visual/home_screen.dart';
+import 'package:passwords_manager/visual/settings_screen.dart';
 
 void main() {
   runApp(PasswordsApp());
@@ -16,7 +17,11 @@ class PasswordsApp extends StatelessWidget {
     return MaterialApp(
       title: 'Passwords Manager',
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const HomeScreen(),
+        'settings': (context) => const SettingsScreen(),
+      },
     );
   }
 }

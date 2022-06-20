@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:google_fonts/google_fonts.dart';
-import 'dart:math' as math;
-import 'package:dotted_border/dotted_border.dart';
-
+import 'package:passwords_manager/visual/components/custom_page_route.dart';
+import 'package:passwords_manager/visual/settings_screen.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
+import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({key}) : super(key: key);
@@ -13,6 +13,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool isPressed = false;
+  bool isFocused = false;
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -29,8 +32,18 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Padding(
               padding: EdgeInsets.all(20),
               child: GestureDetector(
-                onTap: () => {print("Lol")},
-                child: Container(
+                onTapDown: (TapDownDetails detail) {
+                  setState(() {
+                    isPressed = true;
+                  });
+                },
+                onTapUp: (TapUpDetails detail) {
+                  setState(() {
+                    isPressed = false;
+                  });
+                },
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 100),
                   child: Icon(
                     Icons.circle_outlined,
                     size: 35,
@@ -47,14 +60,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       BoxShadow(
                         color: Colors.grey[600],
                         offset: Offset(10, 10),
-                        blurRadius: 10,
-                        spreadRadius: 4,
+                        blurRadius: 8,
+                        spreadRadius: 2,
+                        inset: isPressed,
                       ),
                       BoxShadow(
                         color: Colors.white,
                         offset: Offset(-5, -5),
-                        blurRadius: 10,
+                        blurRadius: 8,
                         spreadRadius: 2,
+                        inset: isPressed,
                       ),
                     ],
                   ),
@@ -78,7 +93,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Spacer(),
                   GestureDetector(
-                    onTap: () => print("lol"),
+                    onTap: () => Navigator.of(context).push(
+                      CustomPageRoute(
+                        child: SettingsScreen(),
+                        transitionDuration: Duration(milliseconds: 500),
+                      ),
+                    ),
                     child: Padding(
                       child: Icon(
                         Icons.settings_outlined,
@@ -101,10 +121,10 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 padding: EdgeInsets.only(
                   left: 50.0,
-                  top: 50.0,
                 ),
+                height: 120,
                 child: Align(
-                  alignment: Alignment.topLeft,
+                  alignment: Alignment.bottomLeft,
                   child: Text(
                     "Hey Sebastian,\nYour Passwords.",
                     style: GoogleFonts.lato(
@@ -170,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -202,115 +222,156 @@ class PasswordCard extends StatelessWidget {
         vertical: 10.0,
         horizontal: 20.0,
       ),
-      child: Container(
-        height: 100.0,
-        padding: EdgeInsets.all(10.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: Colors.grey[300],
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey[600],
-              offset: Offset(4, 4),
-              blurRadius: 8,
-              spreadRadius: 1,
-            ),
-            BoxShadow(
-              color: Colors.white,
-              offset: Offset(-4, -4),
-              blurRadius: 8,
-              spreadRadius: 1,
-            ),
-          ],
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(right: 10.0),
-              child: Container(
-                width: 10,
-                height: 10,
-                decoration: BoxDecoration(
-                  color: Colors.green[400],
-                  borderRadius: BorderRadius.circular(5),
+      child: Stack(
+        children: [
+          Container(
+            height: 100.0,
+            padding: EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Colors.grey[300],
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey[600],
+                  offset: Offset(4, 4),
+                  blurRadius: 8,
+                  spreadRadius: 1,
                 ),
-              ),
+                BoxShadow(
+                  color: Colors.white,
+                  offset: Offset(-4, -4),
+                  blurRadius: 8,
+                  spreadRadius: 1,
+                ),
+              ],
             ),
-            Column(
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Google Account",
-                  style: GoogleFonts.lato(
-                    //color: Colors.red[800],
-                    color: Colors.grey[700],
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.w600,
+                Padding(
+                  padding: EdgeInsets.only(right: 10.0),
+                  child: Container(
+                    width: 10,
+                    height: 10,
+                    decoration: BoxDecoration(
+                      color: Colors.green[400],
+                      borderRadius: BorderRadius.circular(5),
+                    ),
                   ),
                 ),
-                SizedBox(
-                  height: 5,
-                ),
-                Row(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      width: 100,
-                      child: Text(
-                        "Username:",
-                        style: GoogleFonts.lato(
-                          //color: Colors.red[800],
-                          color: Colors.grey[600],
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.w500,
-                        ),
+                    Text(
+                      "Google Account",
+                      style: GoogleFonts.lato(
+                        //color: Colors.red[800],
+                        color: Colors.grey[800],
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                     SizedBox(
-                      width: 150,
-                      child: Text(
-                        "bastidmn",
-                        style: GoogleFonts.lato(
-                          //color: Colors.red[800],
-                          color: Colors.grey[600],
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                      height: 5,
                     ),
-                  ],
-                ),Row(
-                  children: [
-                    SizedBox(
-                      width: 100,
-                      child: Text(
-                        "Email:",
-                        style: GoogleFonts.lato(
-                          //color: Colors.red[800],
-                          color: Colors.grey[600],
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.w500,
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 100,
+                          child: Text(
+                            "Username:",
+                            style: GoogleFonts.lato(
+                              //color: Colors.red[800],
+                              color: Colors.grey[700],
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
-                      ),
+                        SizedBox(
+                          width: 150,
+                          child: Text(
+                            "bastidmn",
+                            style: GoogleFonts.lato(
+                              //color: Colors.red[800],
+                              color: Colors.grey[600],
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      width: 200,
-                      child: Text(
-                        "bastidmn080@gmail.com",
-                        style: GoogleFonts.lato(
-                          //color: Colors.red[800],
-                          color: Colors.grey[600],
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.w500,
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 100,
+                          child: Text(
+                            "Email:",
+                            style: GoogleFonts.lato(
+                              //color: Colors.red[800],
+                              color: Colors.grey[600],
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
-                      ),
+                        SizedBox(
+                          width: 200,
+                          child: Text(
+                            "bastidmn080@gmail.com",
+                            style: GoogleFonts.lato(
+                              //color: Colors.red[800],
+                              color: Colors.grey[600],
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+          Visibility(
+            visible: true,
+            child: Positioned(
+              top: 10.0,
+              right: 10.0,
+              child: Container(
+                height: 25.0,
+                width: 25.0,
+                decoration: BoxDecoration(
+                  color: Colors.red[900],
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey[600],
+                      offset: Offset(4, 4),
+                      blurRadius: 8,
+                      spreadRadius: 1,
+                    ),
+                    BoxShadow(
+                      color: Colors.white,
+                      offset: Offset(-4, -4),
+                      blurRadius: 8,
+                      spreadRadius: 1,
+                    ),
+                  ],
+                ),
+                child: Center(
+                  child: Icon(
+                    Icons.priority_high,
+                    color: Colors.grey[300],
+                    size: 20.0,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
