@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:passwords_manager/visual/components/custom_page_route.dart';
@@ -12,74 +13,216 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  bool isPressed = false;
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  bool isPressed;
+  bool dialShown;
   bool isFocused = false;
+  AnimationController _controller1;
+  Animation _animation;
+  Alignment align1;
+  Alignment align2;
+
+  @override
+  void initState() {
+    super.initState();
+    isPressed = false;
+    dialShown = false;
+    align1 = Alignment(
+      0.0,
+      1.0,
+    );
+    align2 = Alignment(
+      0.0,
+      1.0,
+    );
+    _controller1 = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 50),
+      reverseDuration: Duration(milliseconds: 50),
+    );
+    _animation = CurvedAnimation(
+      parent: _controller1,
+      curve: Curves.easeIn,
+      reverseCurve: Curves.easeIn,
+    );
+    _controller1.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-
-    final bool keyboardHidden = MediaQuery.of(context).viewInsets.bottom == 0;
+    //double height = MediaQuery.of(context).size.height;
 
     return Container(
       color: Colors.grey[300],
       child: SafeArea(
         child: Scaffold(
-          floatingActionButton: Visibility(
-            visible: keyboardHidden,
-            child: Padding(
-              padding: EdgeInsets.all(20),
-              child: GestureDetector(
-                onTapDown: (TapDownDetails detail) {
-                  setState(() {
-                    isPressed = true;
-                  });
-                },
-                onTapUp: (TapUpDetails detail) {
-                  setState(() {
-                    isPressed = false;
-                  });
-                },
-                child: AnimatedContainer(
-                  duration: Duration(milliseconds: 100),
-                  child: Icon(
-                    Icons.circle_outlined,
-                    size: 35,
-                  ),
-                  // Image.asset(
-                  //   "assets/expand_icon.png",
-                  // ),
-                  width: 70,
-                  height: 70,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.grey[300],
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey[600],
-                        offset: Offset(10, 10),
-                        blurRadius: 8,
-                        spreadRadius: 2,
-                        inset: isPressed,
+          resizeToAvoidBottomInset: false,
+          backgroundColor: Colors.grey[300],
+          floatingActionButton: Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: 20,
+            ),
+            child: Stack(
+              children: [
+                //Animated Button - Add
+                AnimatedAlign(
+                  duration: isPressed
+                      ? Duration(milliseconds: 100)
+                      : Duration(milliseconds: 200),
+                  alignment: align1,
+                  curve: isPressed ? Curves.easeIn : Curves.easeOut,
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 100),
+                    curve: isPressed ? Curves.easeIn : Curves.easeOut,
+                    height: 60,
+                    width: 60,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.grey[300],
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey[600],
+                          offset: Offset(10, 10),
+                          blurRadius: 8,
+                          spreadRadius: 2,
+                        ),
+                        BoxShadow(
+                          color: Colors.white,
+                          offset: Offset(-5, -5),
+                          blurRadius: 8,
+                          spreadRadius: 2,
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.add,
+                        size: 30,
                       ),
-                      BoxShadow(
-                        color: Colors.white,
-                        offset: Offset(-5, -5),
-                        blurRadius: 8,
-                        spreadRadius: 2,
-                        inset: isPressed,
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
+                //Animated Button - SafeGuard
+                AnimatedAlign(
+                  duration: isPressed
+                      ? Duration(milliseconds: 100)
+                      : Duration(milliseconds: 200),
+                  alignment: align2,
+                  curve: isPressed ? Curves.easeIn : Curves.easeOut,
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 100),
+                    curve: isPressed ? Curves.easeIn : Curves.easeOut,
+                    height: 60,
+                    width: 60,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.grey[300],
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey[600],
+                          offset: Offset(10, 10),
+                          blurRadius: 8,
+                          spreadRadius: 2,
+                        ),
+                        BoxShadow(
+                          color: Colors.white,
+                          offset: Offset(-5, -5),
+                          blurRadius: 8,
+                          spreadRadius: 2,
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.security,
+                        size: 30,
+                      ),
+                    ),
+                  ),
+                ),
+                //Center Button - Toggle
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: GestureDetector(
+                    onTap: () => setState(() {
+                      if (!isPressed) {
+                        isPressed = !isPressed;
+                        _controller1.forward();
+                        Future.delayed(Duration(milliseconds: 50), () {
+                          setState(() {
+                            align1 = Alignment(
+                              -0.4,
+                              0.8,
+                            );
+                            align2 = Alignment(
+                              0.4,
+                              0.8,
+                            );
+                          });
+                        });
+                      } else {
+                        isPressed = !isPressed;
+                        _controller1.reverse();
+                        Future.delayed(Duration(milliseconds: 50), () {
+                          setState(() {
+                            align1 = Alignment(
+                              0.0,
+                              1.0,
+                            );
+                            align2 = Alignment(
+                              0.0,
+                              1.0,
+                            );
+                          });
+                        });
+                      }
+                    }),
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 30),
+                      child: Icon(
+                        (isPressed) ? Icons.close : Icons.circle_outlined,
+                        size: 35,
+                      ),
+                      // Image.asset(
+                      //   "assets/expand_icon.png",
+                      // ),
+                      width: 70,
+                      height: 70,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.grey[300],
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey[600],
+                            offset: Offset(10, 10),
+                            blurRadius: 8,
+                            spreadRadius: 2,
+                            inset: isPressed,
+                          ),
+                          BoxShadow(
+                            color: Colors.white,
+                            offset: Offset(-5, -5),
+                            blurRadius: 8,
+                            spreadRadius: 2,
+                            inset: isPressed,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          backgroundColor: Colors.grey[300],
           appBar: new PreferredSize(
             preferredSize: new Size(width, 60),
             child: Container(
@@ -96,7 +239,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     onTap: () => Navigator.of(context).push(
                       CustomPageRoute(
                         child: SettingsScreen(),
-                        transitionDuration: Duration(milliseconds: 500),
+                        transitionDuration: Duration(milliseconds: 300),
                       ),
                     ),
                     child: Padding(
@@ -144,55 +287,81 @@ class _HomeScreenState extends State<HomeScreen> {
                     top: 8.0,
                     bottom: 30.0,
                   ),
-                  child: Container(
-                    height: 45.0,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.grey[300],
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey[600],
-                          offset: Offset(8, 8),
-                          blurRadius: 10,
-                          spreadRadius: 4,
-                        ),
-                        BoxShadow(
-                          color: Colors.white,
-                          offset: Offset(-8, -8),
-                          blurRadius: 10,
-                          spreadRadius: 2,
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Icon(
-                            Icons.search,
-                            color: Colors.grey[600],
-                            size: 24,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: 5.0,
-                            right: 10.0,
-                            bottom: 5.0,
-                          ),
-                          child: Container(
-                            width: width * 0.8,
-                            child: TextField(
-                              decoration: null,
-                              cursorColor: Colors.black,
-                              style: GoogleFonts.lato(
-                                fontSize: 20.0,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 45.0,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.grey[300],
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey[600],
+                                offset: Offset(8, 8),
+                                blurRadius: 10,
+                                spreadRadius: 4,
                               ),
-                            ),
+                              BoxShadow(
+                                color: Colors.white,
+                                offset: Offset(-8, -8),
+                                blurRadius: 10,
+                                spreadRadius: 2,
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(8),
+                                child: Icon(
+                                  Icons.search,
+                                  color: Colors.grey[600],
+                                  size: 24,
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: 5.0,
+                                  right: 10.0,
+                                  bottom: 5.0,
+                                ),
+                                child: Container(
+                                  width: (width * 0.7),
+                                  //child: CompositedTransformTarget(
+                                  //link: this._layerLink,
+                                  child: TextField(
+                                    decoration: null,
+                                    cursorColor: Colors.black,
+                                    style: GoogleFonts.lato(
+                                      fontSize: 20.0,
+                                    ),
+                                  ),
+                                  //),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 10.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                  },
+                                  child: Container(
+                                    height: 40.0,
+                                    width: 40.0,
+                                    child: Center(
+                                      child: Image.asset(
+                                        "assets/wheel_icon.png",
+                                        height: 30.0,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
                 content: Column(
@@ -200,7 +369,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         .map((item) => (item <= 9)
                             ? PasswordCard()
                             : Container(
-                                height: 100,
+                                height: 180,
                               ))
                         .toList()),
               ),
