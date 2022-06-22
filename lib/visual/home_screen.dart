@@ -16,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   bool isPressed;
+  bool isVisible;
   bool dialShown;
   bool isFocused = false;
   AnimationController _controller1;
@@ -27,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen>
   void initState() {
     super.initState();
     isPressed = false;
+    isVisible = false;
     dialShown = false;
     align1 = Alignment(
       0.0,
@@ -80,33 +82,36 @@ class _HomeScreenState extends State<HomeScreen>
                       : Duration(milliseconds: 200),
                   alignment: align1,
                   curve: isPressed ? Curves.easeIn : Curves.easeOut,
-                  child: AnimatedContainer(
-                    duration: Duration(milliseconds: 100),
-                    curve: isPressed ? Curves.easeIn : Curves.easeOut,
-                    height: 60,
-                    width: 60,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: Colors.grey[300],
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey[600],
-                          offset: Offset(10, 10),
-                          blurRadius: 8,
-                          spreadRadius: 2,
+                  child: Visibility(
+                    visible: isVisible,
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 100),
+                      curve: isPressed ? Curves.easeIn : Curves.easeOut,
+                      height: 60,
+                      width: 60,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: Colors.grey[300],
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey[600],
+                            offset: Offset(10, 10),
+                            blurRadius: 8,
+                            spreadRadius: 2,
+                          ),
+                          BoxShadow(
+                            color: Colors.white,
+                            offset: Offset(-5, -5),
+                            blurRadius: 8,
+                            spreadRadius: 2,
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.add,
+                          size: 30,
                         ),
-                        BoxShadow(
-                          color: Colors.white,
-                          offset: Offset(-5, -5),
-                          blurRadius: 8,
-                          spreadRadius: 2,
-                        ),
-                      ],
-                    ),
-                    child: Center(
-                      child: Icon(
-                        Icons.add,
-                        size: 30,
                       ),
                     ),
                   ),
@@ -157,6 +162,7 @@ class _HomeScreenState extends State<HomeScreen>
                       if (!isPressed) {
                         isPressed = !isPressed;
                         _controller1.forward();
+                        isVisible = true;
                         Future.delayed(Duration(milliseconds: 50), () {
                           setState(() {
                             align1 = Alignment(

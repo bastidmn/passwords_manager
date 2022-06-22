@@ -130,7 +130,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 'Dark Theme',
                                 style: GoogleFonts.lato(
                                   //color: Colors.red[800],
-                                  color: Colors.grey[500],
+                                  color: Colors.grey[700],
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -142,6 +142,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 alignment: Alignment.centerLeft,
                                 child: Switch(
                                   value: _darkTheme,
+                                  activeColor: Colors.grey[700],
+                                  inactiveTrackColor: Colors.grey[400],
+                                  inactiveThumbColor: Colors.grey[500],
                                   onChanged: (bool newValue) {
                                     setState(() {
                                       _darkTheme = newValue;
@@ -164,7 +167,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 'Language',
                                 style: GoogleFonts.lato(
                                   //color: Colors.red[800],
-                                  color: Colors.grey[500],
+                                  color: Colors.grey[700],
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -175,6 +178,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               child: Align(
                                 alignment: Alignment.bottomLeft,
                                 child: DropdownButton(
+                                  isDense: true,
                                   value: _dropdownValue,
                                   underline: Container(color: Colors.grey[300]),
                                   onChanged: (String newValue) {
@@ -191,7 +195,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         value,
                                         style: GoogleFonts.lato(
                                           //color: Colors.red[800],
-                                          color: Colors.grey[700],
+                                          color: Colors.grey[500],
                                           fontSize: 20.0,
                                           fontWeight: FontWeight.w600,
                                         ),
@@ -227,7 +231,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 'Username',
                                 style: GoogleFonts.lato(
                                   //color: Colors.red[800],
-                                  color: Colors.grey[500],
+                                  color: Colors.grey[700],
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -239,7 +243,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 'Sebastian',
                                 style: GoogleFonts.lato(
                                   //color: Colors.red[800],
-                                  color: Colors.grey[700],
+                                  color: Colors.grey[500],
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -298,7 +302,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 'Startup',
                                 style: GoogleFonts.lato(
                                   //color: Colors.red[800],
-                                  color: Colors.grey[500],
+                                  color: Colors.grey[700],
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -314,7 +318,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         : 'Password',
                                 style: GoogleFonts.lato(
                                   //color: Colors.red[800],
-                                  color: Colors.grey[700],
+                                  color: Colors.grey[500],
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -333,6 +337,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Slider(
+                                  activeColor: Colors.grey[700],
+                                  inactiveColor: Colors.grey[500],
                                   value: _startupSliderValue,
                                   divisions: 2,
                                   min: 0.0,
@@ -356,10 +362,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             Expanded(
                               flex: 1,
                               child: Text(
-                                'Startup',
+                                'Entry',
                                 style: GoogleFonts.lato(
                                   //color: Colors.red[800],
-                                  color: Colors.grey[500],
+                                  color: Colors.grey[700],
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -375,7 +381,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         : 'Password',
                                 style: GoogleFonts.lato(
                                   //color: Colors.red[800],
-                                  color: Colors.grey[700],
+                                  color: Colors.grey[500],
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -394,6 +400,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Slider(
+                                  activeColor: Colors.grey[700],
+                                  inactiveColor: Colors.grey[500],
                                   value: _entrySliderValue,
                                   divisions: 2,
                                   min: 0.0,
@@ -420,7 +428,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 'Password',
                                 style: GoogleFonts.lato(
                                   //color: Colors.red[800],
-                                  color: Colors.grey[500],
+                                  color: Colors.grey[700],
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.w600,
                                 ),
