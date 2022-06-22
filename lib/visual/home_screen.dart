@@ -38,13 +38,13 @@ class _HomeScreenState extends State<HomeScreen>
     );
     _controller1 = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 50),
-      reverseDuration: Duration(milliseconds: 50),
+      duration: Duration(milliseconds: 100),
+      reverseDuration: Duration(milliseconds: 150),
     );
     _animation = CurvedAnimation(
       parent: _controller1,
-      curve: Curves.easeIn,
-      reverseCurve: Curves.easeIn,
+      curve: Curves.easeOut,
+      reverseCurve: Curves.easeOut,
     );
     _controller1.addListener(() {
       setState(() {});
@@ -327,7 +327,7 @@ class _HomeScreenState extends State<HomeScreen>
                                   bottom: 5.0,
                                 ),
                                 child: Container(
-                                  width: (width * 0.7),
+                                  width: (width * 0.68),
                                   //child: CompositedTransformTarget(
                                   //link: this._layerLink,
                                   child: TextField(
